@@ -22,6 +22,7 @@ const PizzaBlock: React.FC<IPizza> = ({
             <li
               className={selectedType === i ? "active" : ""}
               onClick={() => setSelectedType(i)}
+              key={i}
             >
               {/*// @ts-ignore*/}
               {typesNames[ind]}
@@ -31,6 +32,7 @@ const PizzaBlock: React.FC<IPizza> = ({
         <ul>
           {sizes.map((size, i) => (
             <li
+              key={i}
               className={selectedSize === i ? "active" : ""}
               onClick={() => setSelectedSize(i)}
             >

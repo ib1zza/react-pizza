@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Sort = () => {
+  const [isMenuActive, setIsMenuActive] = useState(false);
+  const [selectedSort, setSelectedSort] = useState("популярности");
+
+  const sortOptions = ["популярности", "цене", "алфавиту"];
   return (
     <div className="sort">
       <div className="sort__label">
@@ -17,15 +21,26 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setIsMenuActive((p) => !p)}>{selectedSort}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {isMenuActive && (
+        <div className="sort__popup">
+          <ul>
+            {sortOptions.map((sort, i) => (
+              <li
+                key={i}
+                onClick={() => {
+                  setSelectedSort(sort);
+                  setIsMenuActive(false);
+                }}
+                className={sort === selectedSort ? "active" : ""}
+              >
+                {sort}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
