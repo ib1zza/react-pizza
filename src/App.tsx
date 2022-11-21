@@ -6,6 +6,10 @@ import Categories from "./components/Categories";
 import Sort from "./components/Sort";
 import PizzaBlock from "./components/PizzaBlock";
 
+import data from "./assets/pizzas.json";
+
+export type IPizza = typeof data[0];
+
 function App() {
   return (
     <div className="App">
@@ -19,62 +23,9 @@ function App() {
             </div>
             <h2 className="content__title">Все пиццы</h2>
             <div className="content__items">
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
-              <PizzaBlock
-                title={"Чизбургер-пицца"}
-                price={500}
-                src={
-                  "https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
-                }
-              />
+              {data.map((pizza) => (
+                <PizzaBlock {...pizza} />
+              ))}
             </div>
           </div>
         </div>
