@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import "./App.css";
 import "./scss/app.scss";
 import Header from "./components/Header";
@@ -7,26 +7,28 @@ import Sort from "./components/Sort";
 import PizzaBlock from "./components/PizzaBlock";
 
 import data from "./assets/pizzas.json";
+import { Skeleton } from "./components/PizzaBlock/Skeleton";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+import { AppRoutes } from "./TypesForRouting";
+import Cart from "./pages/Cart";
 
 export type IPizza = typeof data[0];
 
 function App() {
+  console.log(AppRoutes.cart);
   return (
     <div className="App">
       <div className="wrapper">
         <Header />
         <div className="content">
           <div className="container">
-            <div className="content__top">
-              <Categories />
-              <Sort />
-            </div>
-            <h2 className="content__title">Все пиццы</h2>
-            <div className="content__items">
-              {data.map((pizza) => (
-                <PizzaBlock {...pizza} key={pizza.id} />
-              ))}
-            </div>
+            <Routes>
+              <Route path={AppRoutes.home} element={<Home />} />
+              <Route path={AppRoutes.cart} element={<Cart />} />
+              <Route path={"*"} element={<NotFound />} />
+            </Routes>
           </div>
         </div>
       </div>

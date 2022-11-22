@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IPizza } from "../App";
+import { IPizza } from "../../App";
 
 const PizzaBlock: React.FC<IPizza> = ({
   title,
