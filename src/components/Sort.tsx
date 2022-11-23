@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 
-const Sort = () => {
+interface SortProps {
+  value: number;
+  onChange: (id: number) => void;
+}
+
+const Sort: React.FC<SortProps> = ({ value, onChange }) => {
   const [isMenuActive, setIsMenuActive] = useState(false);
-  const [selectedSort, setSelectedSort] = useState("популярности");
 
   const sortOptions = ["популярности", "цене", "алфавиту"];
   return (
@@ -21,7 +25,9 @@ const Sort = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsMenuActive((p) => !p)}>{selectedSort}</span>
+        <span onClick={() => setIsMenuActive((p) => !p)}>
+          {sortOptions[value]}
+        </span>
       </div>
       {isMenuActive && (
         <div className="sort__popup">
@@ -30,10 +36,10 @@ const Sort = () => {
               <li
                 key={i}
                 onClick={() => {
-                  setSelectedSort(sort);
+                  onChange(i);
                   setIsMenuActive(false);
                 }}
-                className={sort === selectedSort ? "active" : ""}
+                className={i === value ? "active" : ""}
               >
                 {sort}
               </li>
