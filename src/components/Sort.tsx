@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 
 interface SortProps {
-  value: number;
-  onChange: (id: number) => void;
+  value: {
+    name: string;
+    sort: string;
+  };
+  onChange: (id: { name: string; sort: string }) => void;
 }
 
 const Sort: React.FC<SortProps> = ({ value, onChange }) => {
   const [isMenuActive, setIsMenuActive] = useState(false);
 
-  const sortOptions = ["популярности", "цене", "алфавиту"];
+  const sortOptions = [
+    { name: "популярности", sort: "rating" },
+    { name: "популярности desc", sort: "-rating" },
+    { name: "цене", sort: "price" },
+    { name: "цене desc", sort: "-price" },
+    { name: "алфавиту", sort: "title" },
+    { name: "алфавиту desc", sort: "-title" },
+  ];
   return (
     <div className="sort">
       <div className="sort__label">
@@ -25,23 +35,21 @@ const Sort: React.FC<SortProps> = ({ value, onChange }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsMenuActive((p) => !p)}>
-          {sortOptions[value]}
-        </span>
+        <span onClick={() => setIsMenuActive((p) => !p)}>{value.name}</span>
       </div>
       {isMenuActive && (
         <div className="sort__popup">
           <ul>
-            {sortOptions.map((sort, i) => (
+            {sortOptions.map((obj, i) => (
               <li
                 key={i}
                 onClick={() => {
-                  onChange(i);
+                  onChange(obj);
                   setIsMenuActive(false);
                 }}
-                className={i === value ? "active" : ""}
+                className={obj.sort === value.sort ? "active" : ""}
               >
-                {sort}
+                {obj.name}
               </li>
             ))}
           </ul>

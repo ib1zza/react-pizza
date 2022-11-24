@@ -8,14 +8,20 @@ import { IPizza } from "../App";
 const Home = () => {
   const [pizzas, setPizzas] = useState<IPizza[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [categoryId, setCategoryId] = useState(0);
-  const [sortType, setSortType] = useState(0);
+  const [categoryId, setCategoryId] = useState<number>(0);
+  const [sortType, setSortType] = useState({
+    name: "популярности",
+    sort: "rating",
+  });
 
   useEffect(() => {
     setLoading(true);
-    fetch(
-      "https://637b3dc210a6f23f7fa31124.mockapi.io/items?category=" + categoryId
-    )
+    const baseQuery = "https://637b3dc210a6f23f7fa31124.mockapi.io/items";
+    const sorting = sortType.sort.replace("-", "");
+    const category = categoryId > 0 ? `category=${categoryId}` : "";
+    const order = sortType.sort.includes("-") ? "desc" : "asc";
+
+    fetch(`${baseQuery}?${category}&sortBy=${sorting}&order=${order}`)
       .then((res) => res.json())
       .then((res) => setPizzas(res))
       .then(() => setLoading(false));
@@ -28,7 +34,7 @@ const Home = () => {
           value={categoryId}
           onChange={(id: number) => setCategoryId(id)}
         />
-        <Sort value={sortType} onChange={(id: number) => setSortType(id)} />
+        <Sort value={sortType} onChange={(id) => setSortType(id)} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
