@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../assets/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
 import { AppRoutes } from "../TypesForRouting";
+import Search from "./Search";
 
 const Header = () => {
   return (
@@ -16,6 +17,7 @@ const Header = () => {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </div>
+        <Search />
         <div className="header__cart">
           <Link to={AppRoutes.cart} className="button button--cart">
             <span>520 ₽</span>
