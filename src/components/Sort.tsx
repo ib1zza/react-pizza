@@ -1,23 +1,29 @@
 import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { setSort } from "../redux/slices/filterSlice";
 
-interface SortProps {
-  value: {
-    name: string;
-    sort: string;
-  };
-  onChange: (id: { name: string; sort: string }) => void;
-}
-
-const Sort: React.FC<SortProps> = ({ value, onChange }) => {
+const Sort: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { sortProperty, name } = useAppSelector((state) => state.filter.sort);
   const [isMenuActive, setIsMenuActive] = useState(false);
+  type SortPropertyOptions =
+    | "rating"
+    | "price"
+    | "title"
+    | "-rating"
+    | "-price"
+    | "-title";
 
-  const sortOptions = [
-    { name: "популярности", sort: "rating" },
-    { name: "популярности desc", sort: "-rating" },
-    { name: "цене", sort: "price" },
-    { name: "цене desc", sort: "-price" },
-    { name: "алфавиту", sort: "title" },
-    { name: "алфавиту desc", sort: "-title" },
+  const sortOptions: Array<{
+    name: string;
+    sortProperty: SortPropertyOptions;
+  }> = [
+    { name: "популярности", sortProperty: "rating" },
+    { name: "популярности desc", sortProperty: "-rating" },
+    { name: "цене", sortProperty: "price" },
+    { name: "цене desc", sortProperty: "-price" },
+    { name: "алфавиту", sortProperty: "title" },
+    { name: "алфавиту desc", sortProperty: "-title" },
   ];
   return (
     <div className="sort">
@@ -35,7 +41,7 @@ const Sort: React.FC<SortProps> = ({ value, onChange }) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsMenuActive((p) => !p)}>{value.name}</span>
+        <span onClick={() => setIsMenuActive((p) => !p)}>{name}</span>
       </div>
       {isMenuActive && (
         <div className="sort__popup">
@@ -44,10 +50,10 @@ const Sort: React.FC<SortProps> = ({ value, onChange }) => {
               <li
                 key={i}
                 onClick={() => {
-                  onChange(obj);
+                  dispatch(setSort(obj));
                   setIsMenuActive(false);
                 }}
-                className={obj.sort === value.sort ? "active" : ""}
+                className={obj.sortProperty === sortProperty ? "active" : ""}
               >
                 {obj.name}
               </li>

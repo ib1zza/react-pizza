@@ -2,12 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from "react";
 import "./App.css";
 import "./scss/app.scss";
 import Header from "./components/Header";
-import Categories from "./components/Categories";
-import Sort from "./components/Sort";
-import PizzaBlock from "./components/PizzaBlock";
-
 import data from "./assets/pizzas.json";
-import { Skeleton } from "./components/PizzaBlock/Skeleton";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
@@ -17,6 +12,7 @@ import Cart from "./pages/Cart";
 export type IPizza = typeof data[0];
 
 function App() {
+  // const
   console.log(AppRoutes.cart);
   return (
     <div className="App">
