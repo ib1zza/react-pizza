@@ -15,6 +15,7 @@ export interface filterState {
     name: string;
     sortProperty: SortPropertyOptions;
   };
+  searchQuery: string;
 }
 
 const initialState: filterState = {
@@ -23,6 +24,7 @@ const initialState: filterState = {
     name: "популярности",
     sortProperty: "rating",
   },
+  searchQuery: "",
 };
 
 export const filterSlice = createSlice({
@@ -38,8 +40,16 @@ export const filterSlice = createSlice({
     ) => {
       state.sort = action.payload;
     },
+    setSearchQuery: (state, action: PayloadAction<string>) => {
+      state.searchQuery = action.payload;
+    },
+    setFilters: (state, action: PayloadAction<filterState>) => {
+      if (action.payload.categoryId >= 0 && action.payload.categoryId <= 4) {
+      }
+    },
   },
 });
 
-export const { setCategoryId, setSort } = filterSlice.actions;
+export const { setCategoryId, setSort, setSearchQuery, setFilters } =
+  filterSlice.actions;
 export default filterSlice.reducer;
