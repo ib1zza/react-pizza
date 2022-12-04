@@ -1,15 +1,12 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React from "react";
 import "./App.css";
 import "./scss/app.scss";
 import Header from "./components/Header";
-import data from "./assets/pizzas.json";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import NotFound from "./pages/NotFound";
 import { AppRoutes } from "./TypesForRouting";
 import Cart from "./pages/Cart";
-
-export type IPizza = typeof data[0];
 
 function App() {
   // const

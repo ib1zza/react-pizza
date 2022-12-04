@@ -3,11 +3,11 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
-import { IPizza } from "../App";
 import { setCategoryId, setFilters } from "../redux/slices/filterSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import axios from "axios";
-import qs from "qs";
+//! import qs from "qs";
+import { IPizza } from "../types";
 
 const Home = () => {
   const dispatch = useAppDispatch();
@@ -46,7 +46,6 @@ const Home = () => {
         {loading
           ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
           : pizzas.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />)}
-        {/*<SaleCard price={590} title={`Маска для мафии “Чикаго”`} img={"https://basket-02.wb.ru/vol272/part27271/27271546/images/big/2.jpg"}/>*/}
       </div>
     </div>
   );
