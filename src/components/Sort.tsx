@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setSort } from "../redux/slices/filterSlice";
 
@@ -25,8 +25,24 @@ const Sort: React.FC = () => {
     { name: "алфавиту", sortProperty: "title" },
     { name: "алфавиту desc", sortProperty: "-title" },
   ];
+
+  useEffect(() => {
+    if (!isMenuActive) return;
+    function handler() {
+      setIsMenuActive(false);
+      console.log("click outside");
+    }
+    window.addEventListener("click", handler);
+    return () => window.removeEventListener("click", handler);
+  }, [isMenuActive]);
+
   return (
-    <div className="sort">
+    <div
+      className="sort"
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <div className="sort__label">
         <svg
           width="10"
