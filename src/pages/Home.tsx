@@ -3,34 +3,32 @@ import Categories from "../components/Categories";
 import Sort from "../components/Sort";
 import { Skeleton } from "../components/PizzaBlock/Skeleton";
 import PizzaBlock from "../components/PizzaBlock";
-import { setCategoryId, setFilters } from "../redux/slices/filterSlice";
+import { setCategoryId, setPageCount } from "../redux/slices/filterSlice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import axios from "axios";
 //! import qs from "qs";
-import { IPizza } from "../types";
 import { fetchPizzas } from "../redux/slices/pizzaSlice";
+import { Pagination } from "../components/Pagination";
 
 const Home = () => {
   const dispatch = useAppDispatch();
-  const categoryId = useAppSelector((state) => state.filter.categoryId);
-  // const [pizzas, setPizzas] = useState<IPizza[]>([]);
-  // const [loading, setLoading] = useState<boolean>(true);
-  const searchQuery = useAppSelector((state) => state.filter.searchQuery);
+  const { categoryId, searchQuery, pageCount } = useAppSelector(
+    (state) => state.filter
+  );
   const sortType = useAppSelector((state) => state.filter.sort.sortProperty);
-  const pizzas = useAppSelector((state) => state.pizzaSlice.list);
-  const loading = useAppSelector((state) => state.pizzaSlice.loading);
+  const { list, loading } = useAppSelector((state) => state.pizzaSlice);
+
   useEffect(() => {
-    // setLoading(true);
-    const baseQuery = "https://637b3dc210a6f23f7fa31124.mockapi.io/items";
     const sorting = sortType.replace("-", "");
-    const category = categoryId > 0 ? `category=${categoryId}&` : "";
+    const category = categoryId > 0 ? ` ${categoryId}` : "";
     const order = sortType.includes("-") ? "desc" : "asc";
     dispatch(
       fetchPizzas(
-        `?${category}search=${searchQuery}&sortBy=${sorting}&order=${order}`
+        `?page=${pageCount}&limit=4&${category}search=${searchQuery}&sortBy=${sorting}&order=${order}`
       )
     );
-  }, [categoryId, sortType, searchQuery]);
+  }, [categoryId, sortType, searchQuery, pageCount]);
+
+  const onChangePage = (n: number) => dispatch(setPageCount(n));
 
   return (
     <div>
@@ -45,8 +43,9 @@ const Home = () => {
       <div className="content__items">
         {loading
           ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-          : pizzas.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />)}
+          : list.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />)}
       </div>
+      <Pagination currentPage={pageCount} onChangePage={onChangePage} />
     </div>
   );
 };

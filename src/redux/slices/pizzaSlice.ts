@@ -25,9 +25,6 @@ export const fetchPizzas = createAsyncThunk<
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      // params: {
-      //   query: query,
-      // },
     })
     .then((res) => res.data)
     .catch(function (error: AxiosError) {

@@ -10,6 +10,7 @@ type SortPropertyOptions =
   | "-title";
 
 export interface filterState {
+  pageCount: number;
   categoryId: number;
   sort: {
     name: string;
@@ -19,6 +20,7 @@ export interface filterState {
 }
 
 const initialState: filterState = {
+  pageCount: 1,
   categoryId: 0,
   sort: {
     name: "популярности",
@@ -47,9 +49,17 @@ export const filterSlice = createSlice({
       if (action.payload.categoryId >= 0 && action.payload.categoryId <= 4) {
       }
     },
+    setPageCount: (state, action: PayloadAction<number>) => {
+      state.pageCount = action.payload;
+    },
   },
 });
 
-export const { setCategoryId, setSort, setSearchQuery, setFilters } =
-  filterSlice.actions;
+export const {
+  setCategoryId,
+  setSort,
+  setSearchQuery,
+  setFilters,
+  setPageCount,
+} = filterSlice.actions;
 export default filterSlice.reducer;
