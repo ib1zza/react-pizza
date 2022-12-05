@@ -8,28 +8,28 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import axios from "axios";
 //! import qs from "qs";
 import { IPizza } from "../types";
+import { fetchPizzas } from "../redux/slices/pizzaSlice";
 
 const Home = () => {
   const dispatch = useAppDispatch();
   const categoryId = useAppSelector((state) => state.filter.categoryId);
-  const [pizzas, setPizzas] = useState<IPizza[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // const [pizzas, setPizzas] = useState<IPizza[]>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
   const searchQuery = useAppSelector((state) => state.filter.searchQuery);
   const sortType = useAppSelector((state) => state.filter.sort.sortProperty);
-
+  const pizzas = useAppSelector((state) => state.pizzaSlice.list);
+  const loading = useAppSelector((state) => state.pizzaSlice.loading);
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
     const baseQuery = "https://637b3dc210a6f23f7fa31124.mockapi.io/items";
     const sorting = sortType.replace("-", "");
     const category = categoryId > 0 ? `category=${categoryId}&` : "";
     const order = sortType.includes("-") ? "desc" : "asc";
-
-    axios
-      .get<IPizza[]>(
-        `${baseQuery}?${category}search=${searchQuery}&sortBy=${sorting}&order=${order}`
+    dispatch(
+      fetchPizzas(
+        `?${category}search=${searchQuery}&sortBy=${sorting}&order=${order}`
       )
-      .then((res) => setPizzas(res.data))
-      .then(() => setLoading(false));
+    );
   }, [categoryId, sortType, searchQuery]);
 
   return (
