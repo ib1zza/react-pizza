@@ -18,14 +18,12 @@ const Home = () => {
   const { list, loading } = useAppSelector((state) => state.pizzaSlice);
 
   useEffect(() => {
-    const sorting = sortType.replace("-", "");
-    const category = categoryId > 0 ? ` ${categoryId}` : "";
-    const order = sortType.includes("-") ? "desc" : "asc";
-    dispatch(
-      fetchPizzas(
-        `?page=${pageCount}&limit=4&${category}search=${searchQuery}&sortBy=${sorting}&order=${order}`
-      )
-    );
+    const sorting = `&sortBy=${sortType.replace("-", "")}`;
+    const category = categoryId > 0 ? `&category=${categoryId}` : "";
+    const order = `&order=${sortType.includes("-") ? "desc" : "asc"}`;
+    const page = `&page=${pageCount}&limit=4`;
+    const search = searchQuery ? `&search=${searchQuery}` : "";
+    dispatch(fetchPizzas(`?${page}${category}${search}${sorting}${order}`));
   }, [categoryId, sortType, searchQuery, pageCount]);
 
   const onChangePage = (n: number) => dispatch(setPageCount(n));

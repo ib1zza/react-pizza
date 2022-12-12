@@ -18,7 +18,7 @@ export const fetchPizzas = createAsyncThunk<
   IPizza[],
   string,
   { rejectValue: string }
->("pizza/FetchPizzas", async function (query, { rejectWithValue }) {
+>("pizza/fetchPizzas", async function (query, { rejectWithValue }) {
   console.log(query);
   const response = await axios
     .get<IPizza[]>(`${baseQuery}${query}`, {
