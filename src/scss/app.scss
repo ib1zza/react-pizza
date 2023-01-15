@@ -113,7 +113,7 @@ body {
   margin: 0 auto;
 
   &--cart {
-    max-width: 820px;
+    max-width: 1120px;
     margin: 90px auto;
     .content__title {
       margin: 0;
@@ -126,6 +126,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
   }
 
   .content__title {
@@ -178,6 +179,7 @@ body {
   }
 
   .content__items {
+    width: 100%;
     display: block;
   }
 

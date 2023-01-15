@@ -1,16 +1,27 @@
 import React, { useState } from "react";
 import { IPizza } from "../../types";
+import { useDispatch } from "react-redux";
+import { addItem } from "../../redux/slices/cartSlice";
 
-const PizzaBlock: React.FC<IPizza> = ({
-  title,
-  price,
-  imageUrl,
-  sizes,
-  types,
-}) => {
+interface Props extends IPizza {
+  count?: number;
+}
+const PizzaBlock: React.FC<Props> = (props) => {
+  const { title, price, imageUrl, sizes, types, count } = props;
+  const dispatch = useDispatch();
   const [selectedSize, setSelectedSize] = useState(0);
   const [selectedType, setSelectedType] = useState(0);
 
+  const handleOnClick = () => {
+    dispatch(
+      addItem({
+        ...props,
+        types: selectedType,
+        sizes: sizes[selectedSize],
+        price: price[selectedSize],
+      })
+    );
+  };
   const typesNames = ["тонкое", "традиционное"];
   return (
     <div className="pizza-block">
@@ -42,8 +53,11 @@ const PizzaBlock: React.FC<IPizza> = ({
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">от {price} ₽</div>
-        <div className="button button--outline button--add">
+        <div className="pizza-block__price">{price[selectedSize]} ₽</div>
+        <div
+          onClick={handleOnClick}
+          className="button button--outline button--add"
+        >
           <svg
             width="12"
             height="12"
@@ -57,7 +71,7 @@ const PizzaBlock: React.FC<IPizza> = ({
             />
           </svg>
           <span>Добавить</span>
-          <i>2</i>
+          <i>{count || 0}</i>
         </div>
       </div>
     </div>

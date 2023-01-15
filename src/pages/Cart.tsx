@@ -1,7 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
+import PizzaBlock from "../components/PizzaBlock";
+import PizzaInCartBlock from "../components/PizzaInCartBlock/PizzaInCartBlock";
 
 const Cart: React.FC = () => {
+  const { items: products, totalPrice } = useAppSelector(
+    (state) => state.cartSlice
+  );
+
+  console.log(products, totalPrice);
+
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -79,16 +88,21 @@ const Cart: React.FC = () => {
             <span>Очистить корзину</span>
           </div>
         </div>
-        <div className="content__items"></div>
+        <div className="content__items">
+          {products.map((pizza) => (
+            <>
+              <PizzaInCartBlock {...pizza}></PizzaInCartBlock>
+            </>
+          ))}
+        </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              {" "}
-              Всего пицц: <b>{} шт.</b>{" "}
+              Всего пицц:{" "}
+              <b>{products.reduce((acc, val) => (acc += val.count), 0)} шт.</b>{" "}
             </span>
             <span>
-              {" "}
-              Сумма заказа: <b>{} ₽</b>{" "}
+              Сумма заказа: <b>{totalPrice || "0"} ₽</b>{" "}
             </span>
           </div>
           <div className="cart__bottom-buttons">

@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IPizza, ISelectedPizza } from "../../types";
 
-interface IPizzaInCart {
-  pizzaId: number;
+export interface IPizzaInCart extends ISelectedPizza {
   count: number;
 }
-
 export interface cartState {
   totalPrice: number;
   items: IPizzaInCart[];
@@ -19,26 +18,40 @@ export const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    //payload = id
-    addItem: (state, action: PayloadAction<number>) => {
+    //payload = ISelectedPizza
+    addItem: (state, action: PayloadAction<ISelectedPizza>) => {
       const isInMas = state.items.findIndex(
-        (el) => el.pizzaId === action.payload
+        (el) =>
+          el._id === action.payload._id &&
+          el.types === action.payload.types &&
+          el.sizes === action.payload.sizes
       );
       if (isInMas === -1) {
-        state.items.push({ pizzaId: action.payload, count: 1 });
+        state.items.push({ ...action.payload, count: 1 });
       } else {
         state.items[isInMas].count++;
       }
+      state.totalPrice += action.payload.price;
     },
-    removeItem: (state, action: PayloadAction<number>) => {
+    removeItem: (state, action: PayloadAction<ISelectedPizza>) => {
       const index = state.items.findIndex(
-        (el) => el.pizzaId === action.payload
+        (el) =>
+          el._id === action.payload._id &&
+          el.types === action.payload.types &&
+          el.sizes === action.payload.sizes
       );
       if (index === -1) return;
-      // state.items[index].count === 1;
+
+      state.totalPrice -= state.items[index].price;
+      state.items[index].count === 1
+        ? (state.items = state.items
+            .slice(0, index)
+            .concat(state.items.slice(index + 1)))
+        : (state.items[index].count -= 1);
     },
     clearCart: (state) => {
       state.items = [];
+      state.totalPrice = 0;
     },
   },
 });
