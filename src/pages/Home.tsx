@@ -46,7 +46,11 @@ const Home = () => {
               <PizzaBlock
                 {...pizza}
                 key={pizza._id}
-                count={cartArray.find((el) => el._id === pizza._id)?.count || 0}
+                // count={
+                //   cartArray.find(
+                //     (el) => el._id === pizza._id && el.types === pizza.types
+                //   )?.count || 0
+                // }
               />
             ))}
       </div>

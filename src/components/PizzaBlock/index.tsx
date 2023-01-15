@@ -2,23 +2,33 @@ import React, { useState } from "react";
 import { IPizza } from "../../types";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../redux/slices/cartSlice";
+import { useAppSelector } from "../../redux/hooks";
 
 interface Props extends IPizza {
   count?: number;
 }
 const PizzaBlock: React.FC<Props> = (props) => {
-  const { title, price, imageUrl, sizes, types, count } = props;
+  const { title, price, imageUrl, sizes, types } = props;
+  const [selectedType, setSelectedType] = useState(types[0]);
+  const [selectedSize, setSelectedSize] = useState(sizes[0]);
+  const cartArray = useAppSelector((state) => state.cartSlice.items);
+  const count =
+    cartArray.find(
+      (el) =>
+        el._id === props._id &&
+        el.types === selectedType &&
+        el.sizes === selectedSize
+    )?.count || 0;
+
   const dispatch = useDispatch();
-  const [selectedSize, setSelectedSize] = useState(0);
-  const [selectedType, setSelectedType] = useState(0);
 
   const handleOnClick = () => {
     dispatch(
       addItem({
         ...props,
         types: selectedType,
-        sizes: sizes[selectedSize],
-        price: price[selectedSize],
+        sizes: selectedSize,
+        price: price[sizes.findIndex((el) => el === selectedSize)],
       })
     );
   };
@@ -31,8 +41,8 @@ const PizzaBlock: React.FC<Props> = (props) => {
         <ul>
           {types.map((ind, i) => (
             <li
-              className={selectedType === i ? "active" : ""}
-              onClick={() => setSelectedType(i)}
+              className={selectedType === ind ? "active" : ""}
+              onClick={() => setSelectedType(ind)}
               key={i}
             >
               {/*// @ts-ignore*/}
@@ -44,8 +54,8 @@ const PizzaBlock: React.FC<Props> = (props) => {
           {sizes.map((size, i) => (
             <li
               key={i}
-              className={selectedSize === i ? "active" : ""}
-              onClick={() => setSelectedSize(i)}
+              className={selectedSize === size ? "active" : ""}
+              onClick={() => setSelectedSize(size)}
             >
               {size + " см."}
             </li>
@@ -53,7 +63,9 @@ const PizzaBlock: React.FC<Props> = (props) => {
         </ul>
       </div>
       <div className="pizza-block__bottom">
-        <div className="pizza-block__price">{price[selectedSize]} ₽</div>
+        <div className="pizza-block__price">
+          {price[sizes.findIndex((el) => el === selectedSize)]} ₽
+        </div>
         <div
           onClick={handleOnClick}
           className="button button--outline button--add"

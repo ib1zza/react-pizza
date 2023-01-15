@@ -181,7 +181,13 @@ body {
   .content__items {
     width: 100%;
     display: block;
+    &__empty {
+      margin: 30px 0 100px 0;
+      font-size: 25px;
+    }
   }
+
+
 
   &__item {
     display: flex;
