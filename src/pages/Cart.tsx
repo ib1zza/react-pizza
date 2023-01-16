@@ -97,9 +97,10 @@ const Cart: React.FC = () => {
         <div className="content__items">
           {products.length ? (
             products.map((pizza) => (
-              <>
-                <PizzaInCartBlock {...pizza} />
-              </>
+              <PizzaInCartBlock
+                {...pizza}
+                key={pizza._id + pizza.types + pizza.sizes}
+              />
             ))
           ) : (
             <div className="content__items__empty">Ваша корзина пуста</div>

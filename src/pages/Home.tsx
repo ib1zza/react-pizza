@@ -14,7 +14,7 @@ const Home = () => {
   const { categoryId, searchQuery, pageCount } = useAppSelector(
     (state) => state.filter
   );
-  const cartArray = useAppSelector((state) => state.cartSlice.items);
+
   const sortType = useAppSelector((state) => state.filter.sort.sortProperty);
   const { list, loading } = useAppSelector((state) => state.pizzaSlice);
 

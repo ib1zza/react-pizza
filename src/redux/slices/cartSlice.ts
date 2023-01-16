@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IPizza, ISelectedPizza } from "../../types";
+import { ISelectedPizza } from "../../types";
 
+const localStorageCart = JSON.parse(localStorage.getItem("pizza-cart") || "{}");
 export interface IPizzaInCart extends ISelectedPizza {
   count: number;
 }
@@ -10,8 +11,8 @@ export interface cartState {
 }
 
 const initialState: cartState = {
-  totalPrice: 0,
-  items: [],
+  totalPrice: localStorageCart.totalPrice || 0,
+  items: localStorageCart.items || [],
 };
 
 export const cartSlice = createSlice({
@@ -32,6 +33,7 @@ export const cartSlice = createSlice({
         state.items[isInMas].count++;
       }
       state.totalPrice += action.payload.price;
+      localStorage.setItem("pizza-cart", JSON.stringify(state));
     },
     removeItem: (state, action: PayloadAction<ISelectedPizza>) => {
       const index = state.items.findIndex(
