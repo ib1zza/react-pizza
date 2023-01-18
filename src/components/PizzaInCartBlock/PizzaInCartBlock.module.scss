@@ -45,8 +45,7 @@
       justify-content: space-between;
 
       &>div {
-
-        padding: 0px 15px;
+        padding: 0 15px;
       }
 
       &>button {
@@ -55,10 +54,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-
+        cursor: pointer;
         color: white;
         padding: 15px;
-
         background-color: #fe5f1e;
         -webkit-border-radius: 50%;
         -moz-border-radius: 50%;

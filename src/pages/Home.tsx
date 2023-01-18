@@ -14,6 +14,14 @@ const Home = () => {
   const { categoryId, searchQuery, pageCount } = useAppSelector(
     (state) => state.filter
   );
+  const [categories] = useState<string[]>([
+    "Все",
+    "Мясные",
+    "Вегетарианские",
+    "Гриль",
+    "Острые",
+    "Закрытые",
+  ]);
 
   const sortType = useAppSelector((state) => state.filter.sort.sortProperty);
   const { list, loading } = useAppSelector((state) => state.pizzaSlice);
@@ -36,23 +44,15 @@ const Home = () => {
           value={categoryId}
           onChange={(id: number) => dispatch(setCategoryId(id))}
         />
+      </div>
+      <div className="content__title">
+        <h2>{categories[categoryId] + " пиццы"}</h2>
         <Sort />
       </div>
-      <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {loading
           ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-          : list.map((pizza) => (
-              <PizzaBlock
-                {...pizza}
-                key={pizza._id}
-                // count={
-                //   cartArray.find(
-                //     (el) => el._id === pizza._id && el.types === pizza.types
-                //   )?.count || 0
-                // }
-              />
-            ))}
+          : list.map((pizza) => <PizzaBlock {...pizza} key={pizza._id} />)}
       </div>
       <Pagination currentPage={pageCount} onChangePage={onChangePage} />
     </div>

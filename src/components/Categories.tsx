@@ -9,7 +9,7 @@ const Categories: React.FC<CategoriesProps> = ({ value, onChange }) => {
   const [categories] = useState<string[]>([
     "Все",
     "Мясные",
-    "Вегетарианская",
+    "Вегетарианские",
     "Гриль",
     "Острые",
     "Закрытые",

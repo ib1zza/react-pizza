@@ -50,10 +50,12 @@ export const cartSlice = createSlice({
             .slice(0, index)
             .concat(state.items.slice(index + 1)))
         : (state.items[index].count -= 1);
+      localStorage.setItem("pizza-cart", JSON.stringify(state));
     },
     clearCart: (state) => {
       state.items = [];
       state.totalPrice = 0;
+      localStorage.setItem("pizza-cart", JSON.stringify(state));
     },
   },
 });

@@ -6,7 +6,7 @@ import debounce from "lodash.debounce";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setSearchQuery } from "../../redux/slices/filterSlice";
 
-const Search: React.FC = () => {
+const Search: React.FC<{ className?: string }> = ({ className }) => {
   const dispatch = useAppDispatch();
   const searchGlobalVal = useAppSelector((state) => state.filter.searchQuery);
   const [searchVal, setSearchVal] = useState<string>(searchGlobalVal);
@@ -27,7 +27,7 @@ const Search: React.FC = () => {
     testDebounce(event.target.value);
   };
   return (
-    <div className={s.root}>
+    <div className={s.root + " " + className || ""}>
       <FontAwesomeIcon icon={faMagnifyingGlass} className={s.icon} />
       <input
         type="text"
