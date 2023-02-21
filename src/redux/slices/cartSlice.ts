@@ -2,17 +2,20 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ISelectedPizza } from "../../types";
 
 const localStorageCart = JSON.parse(localStorage.getItem("pizza-cart") || "{}");
+
 export interface IPizzaInCart extends ISelectedPizza {
   count: number;
 }
 export interface cartState {
   totalPrice: number;
   items: IPizzaInCart[];
+  counter: number;
 }
 
 const initialState: cartState = {
   totalPrice: localStorageCart.totalPrice || 0,
   items: localStorageCart.items || [],
+  counter: localStorageCart.counter || 0,
 };
 
 export const cartSlice = createSlice({
@@ -33,6 +36,9 @@ export const cartSlice = createSlice({
         state.items[isInMas].count++;
       }
       state.totalPrice += action.payload.price;
+      state.counter = state.items.reduce((acc, el) => {
+        return (acc += el.count);
+      }, 0);
       localStorage.setItem("pizza-cart", JSON.stringify(state));
     },
     removeItem: (state, action: PayloadAction<ISelectedPizza>) => {
@@ -50,11 +56,16 @@ export const cartSlice = createSlice({
             .slice(0, index)
             .concat(state.items.slice(index + 1)))
         : (state.items[index].count -= 1);
+      state.counter = state.items.reduce((acc, el) => {
+        return (acc += el.count);
+      }, 0);
       localStorage.setItem("pizza-cart", JSON.stringify(state));
     },
+
     clearCart: (state) => {
       state.items = [];
       state.totalPrice = 0;
+      state.counter = 0;
       localStorage.setItem("pizza-cart", JSON.stringify(state));
     },
   },

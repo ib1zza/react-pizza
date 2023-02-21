@@ -6,7 +6,9 @@ import Search from "./Search";
 import { useAppSelector } from "../redux/hooks";
 
 const Header = () => {
-  const { items, totalPrice } = useAppSelector((state) => state.cartSlice);
+  const { items, totalPrice, counter } = useAppSelector(
+    (state) => state.cartSlice
+  );
   return (
     <div className="header">
       <div className="container">
@@ -54,7 +56,7 @@ const Header = () => {
                   strokeLinejoin="round"
                 />
               </svg>
-              <span>{items.length}</span>
+              <span>{counter}</span>
             </div>
           </Link>
         </div>
