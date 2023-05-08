@@ -21,4 +21,4 @@
 
 ## Использование
 
-Последняя версия сайта размещена на хостинге Vercel https://react-pizza-red.vercel.app/cart
+Последняя версия сайта размещена на хостинге Vercel https://react-pizza-red.vercel.app
